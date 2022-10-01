@@ -36,14 +36,37 @@ public class Game {
         this.screen.refresh();
     }
 
-    private void processKey(KeyStroke key){
+    private void processKey(KeyStroke key) throws IOException{
+
+        if(key.getKeyType() == KeyType.ArrowUp){
+            y -= 1;
+        }
+        if(key.getKeyType() == KeyType.ArrowDown){
+            y += 1;
+        }
+        if(key.getKeyType() == KeyType.ArrowLeft){
+            x -= 1;
+        }
+        if(key.getKeyType() == KeyType.ArrowRight){
+            x += 1;
+        }
+
+        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
+            screen.close();
+        }
+
         System.out.println(key);
     }
 
     public void run() throws IOException{
-        draw();
-        KeyStroke key = screen.readInput();
-        processKey(key);
+        while(true){
+            draw();
+            KeyStroke key = screen.readInput();
+            processKey(key);
+            if(key.getKeyType() == KeyType.EOF){
+                break;
+            }
+        }
     }
 
 }
