@@ -1,5 +1,7 @@
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -11,8 +13,10 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    private int x = 10;
-    private int y = 10;
+
+    private Arena arena = new Arena(30,30);
+
+    private Hero hero = new Hero(10, 10);
 
     public Game(){
 
@@ -30,32 +34,22 @@ public class Game {
         }
 
     }
+
     private void draw() throws IOException{
         this.screen.clear();
-        this.screen.setCharacter(x,y, TextCharacter.fromCharacter('X')[0]);
+        arena.draw(screen.newTextGraphics());
         this.screen.refresh();
     }
 
     private void processKey(KeyStroke key) throws IOException{
-
-        if(key.getKeyType() == KeyType.ArrowUp){
-            y -= 1;
-        }
-        if(key.getKeyType() == KeyType.ArrowDown){
-            y += 1;
-        }
-        if(key.getKeyType() == KeyType.ArrowLeft){
-            x -= 1;
-        }
-        if(key.getKeyType() == KeyType.ArrowRight){
-            x += 1;
-        }
-
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
             screen.close();
         }
+        arena.processKey(key);
+    }
 
-        System.out.println(key);
+    private void moveHero(Position position) {
+        hero.setPosition(position);
     }
 
     public void run() throws IOException{
@@ -70,3 +64,4 @@ public class Game {
     }
 
 }
+
