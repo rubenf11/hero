@@ -44,13 +44,11 @@ public class Arena {
     public void draw(TextGraphics graphics) throws IOException {
 
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
-        graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width * 2, height * 2), ' ');
-        graphics.putString(new TerminalPosition(position.get_x() * 2, position.get_y() * 2), "\\/");
-        graphics.putString(new TerminalPosition(position.get_x() * 2, position.get_y() * 2 + 1), "/\\");
+        hero.draw(graphics);
         for (Wall wall : walls)
             wall.draw(graphics);
-        hero.draw(graphics);
+
     }
     public void processKey(KeyStroke key) throws IOException{
         if(key.getKeyType() == KeyType.ArrowUp){
