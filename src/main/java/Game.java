@@ -16,14 +16,14 @@ public class Game {
     private Screen screen;
     private Wall walls;
 
-    private Arena arena = new Arena(15,15, (List) walls);
+    private Arena arena = new Arena(60,20, (List) walls);
 
     private Hero hero = new Hero(10, 10);
 
     public Game(){
 
         try {
-            TerminalSize terminalSize = new TerminalSize(40, 20);
+            TerminalSize terminalSize = new TerminalSize(60, 20);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
             Terminal terminal = terminalFactory.createTerminal();
             this.screen = new TerminalScreen(terminal);
