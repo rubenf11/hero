@@ -8,20 +8,37 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Arena {
 
     private Hero hero = new Hero(10,10);
     private Screen screen;
+    private List<Wall> walls;
 
     private Position position = new Position(hero.get_x(), hero.get_y());
 
     private int width;
     private int height;
 
-    public Arena(int width, int height){
+    public Arena(int width, int height, List walls){
         this.width = width;
         this.height = height;
+        this.walls = createWalls();
+    }
+
+    private List<Wall> createWalls() {
+        List<Wall> walls = new ArrayList<>();
+        for (int c = 0; c < width; c++) {
+            walls.add(new Wall(c, 0));
+            walls.add(new Wall(c, height - 1));
+        }
+        for (int r = 1; r < height - 1; r++) {
+            walls.add(new Wall(0, r));
+            walls.add(new Wall(width - 1, r));
+        }
+        return walls;
     }
 
     public void draw(TextGraphics graphics) throws IOException {
@@ -31,6 +48,8 @@ public class Arena {
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width * 2, height * 2), ' ');
         graphics.putString(new TerminalPosition(position.get_x() * 2, position.get_y() * 2), "\\/");
         graphics.putString(new TerminalPosition(position.get_x() * 2, position.get_y() * 2 + 1), "/\\");
+        for (Wall wall : walls)
+            wall.draw(graphics);
         hero.draw(graphics);
     }
     public void processKey(KeyStroke key) throws IOException{
@@ -52,15 +71,14 @@ public class Arena {
     }
 
     public boolean canHeroMove(Position position){
-        if(width <= position.get_x()+1 || position.get_x()-1 <= 0){
-            return false;
+        for (Wall wall : walls){
+            if (wall.getPosition().equals(position)){
+                return false;
+            }
         }
-        if(height <= position.get_y()+1 || position.get_y()-1 <= 0){
-            return false;
-        }
-
         return true;
     }
+
 
     public void moveHero(Position position) {
         if (canHeroMove(position))

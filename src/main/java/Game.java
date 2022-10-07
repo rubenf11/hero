@@ -10,11 +10,13 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Game {
     private Screen screen;
+    private Wall walls;
 
-    private Arena arena = new Arena(30,30);
+    private Arena arena = new Arena(15,15, (List) walls);
 
     private Hero hero = new Hero(10, 10);
 
