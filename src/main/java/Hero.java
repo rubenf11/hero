@@ -7,17 +7,18 @@ import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
 
-public class Hero {
+public class Hero{
 
     private Position position;
 
     public Hero(int x, int y) {
-        this.position = new Position(x, y);
+        position = new Position(x,y);
     }
 
     public int get_x(){
         return position.get_x();
     }
+
     public int get_y(){
         return position.get_y();
     }
@@ -45,13 +46,12 @@ public class Hero {
         return new Position(position.get_x() + 1, position.get_y());
     }
 
-    public void draw(TextGraphics graphics) throws IOException{
+
+    public void draw(TextGraphics graphics) {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(position.get_x(), position.get_y()), "X");
         graphics.setCharacter(position.get_x(), position.get_y(), TextCharacter.fromCharacter('X')[0]);
-        graphics.putString(new TerminalPosition(position.get_x() * 2, position.get_y() * 2), "\\/");
-        graphics.putString(new TerminalPosition(position.get_x() * 2, position.get_y() * 2 + 1), "/\\");
     }
 
 }
