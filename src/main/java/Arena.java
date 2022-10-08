@@ -17,7 +17,7 @@ public class Arena {
     private Screen screen;
     private List<Wall> walls;
 
-    private Position position = new Position(hero.get_x(), hero.get_y());
+    private Position position = new Position(hero.getPosition().get_x(), hero.getPosition().get_y());
 
     private int width;
     private int height;
