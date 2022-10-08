@@ -10,12 +10,14 @@ import com.googlecode.lanterna.screen.Screen;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
 
     private Hero hero = new Hero(10,10);
     private Screen screen;
     private List<Wall> walls;
+    private List<Coin> coins;
 
     private Position position = new Position(hero.getPosition().get_x(), hero.getPosition().get_y());
 
@@ -26,6 +28,7 @@ public class Arena {
         this.width = width;
         this.height = height;
         this.walls = createWalls();
+        coins = createCoins();
     }
 
     private List<Wall> createWalls() {
@@ -41,6 +44,18 @@ public class Arena {
         return walls;
     }
 
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Coin newcoin = new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+            if (!coins.contains(newcoin) && !newcoin.getPosition().equals(hero.getPosition())){
+                coins.add(newcoin);
+            }
+        }
+        return coins;
+    }
+
     public void draw(TextGraphics graphics) throws IOException {
 
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
@@ -49,6 +64,9 @@ public class Arena {
         for (Wall wall : walls)
             wall.draw(graphics);
 
+        for(Coin coin : coins){
+            coin.draw(graphics);
+        }
     }
     public void processKey(KeyStroke key) throws IOException{
         if(key.getKeyType() == KeyType.ArrowUp){
@@ -81,6 +99,17 @@ public class Arena {
     public void moveHero(Position position) {
         if (canHeroMove(position))
             hero.setPosition(position);
+        retrieveCoins();
+    }
+
+    public void retrieveCoins(){
+        for(Coin coin : coins){
+            if(coin.getPosition().equals(hero.getPosition())){
+                coins.remove(coin);
+                break;
+            }
+        }
+
     }
 
 }
