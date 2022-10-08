@@ -7,51 +7,44 @@ import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
 
-public class Hero{
+public class Hero extends Element{
 
     private Position position;
 
     public Hero(int x, int y) {
-        position = new Position(x,y);
+        super(x,y);
     }
 
-    public int get_x(){
-        return position.get_x();
+    public Position getPosition(){
+        return super.getPosition();
     }
-
-    public int get_y(){
-        return position.get_y();
-    }
-
-    public void setPosition(Position position) {
-
-        this.position.set_x(position.get_x());
-        this.position.set_y(position.get_y());
-
+    public void setPosition(Position p){
+        super.getPosition().set_x(p.get_x());
+        super.getPosition().set_y(p.get_y());
     }
 
     public Position moveUp() {
-        return new Position(position.get_x(), position.get_y() - 1);
+        return new Position(super.getPosition().get_x(), super.getPosition().get_y() - 1);
     }
 
     public Position moveDown() {
-        return new Position(position.get_x(), position.get_y() + 1);
+        return new Position(super.getPosition().get_x(), super.getPosition().get_y() + 1);
     }
 
     public Position moveLeft() {
-        return new Position(position.get_x() - 1, position.get_y());
+        return new Position(super.getPosition().get_x() - 1, super.getPosition().get_y());
     }
 
     public Position moveRight() {
-        return new Position(position.get_x() + 1, position.get_y());
+        return new Position(super.getPosition().get_x() + 1, super.getPosition().get_y());
     }
 
 
     public void draw(TextGraphics graphics) {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
         graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(position.get_x(), position.get_y()), "X");
-        graphics.setCharacter(position.get_x(), position.get_y(), TextCharacter.fromCharacter('X')[0]);
+        graphics.putString(new TerminalPosition(super.getPosition().get_x(), super.getPosition().get_y()), "X");
+        graphics.setCharacter(super.getPosition().get_x(), super.getPosition().get_y(), TextCharacter.fromCharacter('X')[0]);
     }
 
 }
