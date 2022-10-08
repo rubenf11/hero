@@ -7,30 +7,23 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.io.IOException;
 import java.util.List;
 
-public class Wall{
+public class Wall extends Element {
 
     private Hero hero = new Hero(10,10);
     private Position position = new Position(10,10);
 
     public Position getPosition(){
-        return position;
+        return super.getPosition();
     }
 
-    public Wall(int x, int y){
-        position = new Position(x,y);
-    }
-
-    public int get_x(){
-        return position.get_x();
-    }
-    public int get_y(){
-        return position.get_y();
+    public Wall(int x, int y) {
+        super(x,y);
     }
 
     public void draw(TextGraphics graphics) {
 
         graphics.setForegroundColor(TextColor.Factory.fromString("#FC5203"));
-        graphics.putString(new TerminalPosition(position.get_x(), position.get_y()), "#");
+        graphics.putString(new TerminalPosition(super.getPosition().get_x(), super.getPosition().get_y()), "#");
 
     }
 
