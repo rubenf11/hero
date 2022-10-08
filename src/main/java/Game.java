@@ -62,6 +62,16 @@ public class Game {
             if(key.getKeyType() == KeyType.EOF){
                 break;
             }
+            if(arena.verifyMonsterCollisions()){
+                screen.close();
+            }
+
+            arena.moveMonsters();
+            if(arena.verifyMonsterCollisions()){
+                screen.close();
+                break;
+            }
+
         }
     }
 
